@@ -1,0 +1,21 @@
+body{
+    padding-top: 5rem;
+}
+.starter-template{
+    padding: 3rem 1.5rem
+}
+
+.applstyl{
+    display: inline-block;
+    border: 2px solid blue;
+    border-radius: 30px;
+    padding: 20px;
+}
+
+.appllist{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    justify-content: center;
+}
+

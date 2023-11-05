@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{%load static%}
+{% block content %}
+<h1>Application List</h1>
+<div class="appllist">
+    {% if application_list %}
+        {% for application in application_list %}
+        <div class="applstyl">
+            <p><strong>Дата добавления:</strong> {{ application.date }}</p>
+            <p><strong>Название:</strong> {{ application.title }}</p>
+            <p><strong>Категория заявки:</strong>{{ application.category }}
+            </p>
+            <p><strong>Фотография:</strong></p>
+            <img src="{{application.photo_file.url}}" width=300px>
+        </div>
+        {% endfor %}
+    {% else %}
+    <p>There are no applications in the library.</p>
+    {% endif %}
+</div>
+<p><b>Количество заявок, находящихся в статусе "Принято в работу":</b>{{num_AcceptedForWork}}</p>
+
+{% endblock %}
