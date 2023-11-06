@@ -11,7 +11,7 @@ class AuthUser(AbstractUser):
     username = models.CharField(max_length=254, verbose_name='Логин', unique=True, blank=False)
     email = models.CharField(max_length=254, verbose_name='Почта', unique=True, blank=False)
     password = models.CharField(max_length=254, verbose_name='Пароль', blank=False)
-    
+
     USERNAME_FIELD = 'username'
 
 
@@ -33,6 +33,12 @@ class Application(models.Model):
         ('done', 'done')
     ]
 
+    CATEGORY_CHOICES = [
+        ('3D-design', '3D-design'),
+        ('2D-design', '2D-design'),
+        ('Sketch', 'Sketch')
+    ]
+
     def validate_image(fieldfile_obj):
         filesize = fieldfile_obj.file.size
         megabyte_limit = 2.0
@@ -41,12 +47,23 @@ class Application(models.Model):
 
     title = models.CharField(max_length=200)
     description = models.TextField(max_length=1000, help_text="Enter a brief description of the application")
-    category = models.ManyToManyField(Category, help_text="Select a genre for this application")
+    category = models.CharField(max_length=254, verbose_name='Категория', choices=CATEGORY_CHOICES)
     photo_file = models.ImageField(max_length=254, upload_to=get_name_file, blank=True, null=True, validators=[
         FileExtensionValidator(allowed_extensions=['png', 'jpg', 'jpeg', 'bmp']), validate_image])
     status = models.CharField(max_length=254, verbose_name='Статус', choices=STATUS_CHOICES, default='new')
     date = models.DateTimeField(verbose_name='Дата добавления', auto_now_add=True)
-    user = models.ForeignKey(AuthUser, verbose_name='Пользователь', on_delete=models.CASCADE)
+    user = models.ForeignKey(AuthUser, verbose_name='Пользователь', on_delete=models.CASCADE, null=True, blank=True)
+
+    def get_absolute_url(self):
+        """
+        Returns the url to access a particular application.
+        """
+        return reverse('my-appli', args=[str(self.id)])
+
+    @property
+    def photo_file_url(self):
+        if self.photo_file and hasattr(self.photo_file, 'url'):
+            return self.photo_file.url
 
     def __str__(self):
         return self.title

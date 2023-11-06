@@ -19,6 +19,8 @@
                     {% block sidebar %}
                     <ul class="navbar-nav">
                         {% if user.is_authenticated %}
+                        <li><a class="nav-link" href="{% url 'my-appli' %}">My Applications</a></li>
+                        <li ><a class="nav-link" href="{% url 'application-create' %}">Create new applications</a></li>
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'logout'%}?next={{ request.path }}">Выйти ({{user.username}})</a>
                         </li>

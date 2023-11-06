@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>Delete Application</h1>
+{% if application.status == 'new'%}
+  <p>Are you sure you want to delete the application: {{ object }}?</p>
+
+  <form action="" method="POST">
+    {% csrf_token %}
+    <input type="submit" value="Yes, delete." />
+  </form>
+{% else %}
+<p>Вы не можете удалить данную запись</p>
+{%endif%}
+{% endblock %}

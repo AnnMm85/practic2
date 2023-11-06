@@ -8,14 +8,13 @@
         <div class="applstyl">
             <p><strong>Дата добавления:</strong> {{ application.date }}</p>
             <p><strong>Название:</strong> {{ application.title }}</p>
-            <p><strong>Категория заявки:</strong>{{ application.category }}
-            </p>
+            <p><strong>Категория заявки:</strong>{{ application.category }}</p>
             <p><strong>Фотография:</strong></p>
             <img src="{{application.photo_file.url}}" width=300px>
         </div>
         {% endfor %}
     {% else %}
-    <p>There are no applications in the library.</p>
+    <p>There are no applications here.</p>
     {% endif %}
 </div>
 <p><b>Количество заявок, находящихся в статусе "Принято в работу":</b>{{num_AcceptedForWork}}</p>

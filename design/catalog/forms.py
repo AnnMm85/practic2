@@ -9,7 +9,7 @@ from catalog.models import AuthUser
 class RegisterUserForm(forms.ModelForm):
     class Meta:
         model = AuthUser
-        fields = ('name', 'username', 'email', 'password', 'password2')
+        fields = ('name', 'username', 'email', 'password',  'password2', 'rules')
 
     username = forms.CharField(label='Логин',
                                validators=[RegexValidator('^[a-zA-Z0-9-]+$',
@@ -57,10 +57,10 @@ class RegisterUserForm(forms.ModelForm):
     def clean(self):
         super().clean()
         password = self.cleaned_data.get('password')
-        password2 = self.cleaned_data.get('password')
+        password2 = self.cleaned_data.get('password2')
         if password and password2 and password != password2:
             raise ValidationError({
-                password2: ValidationError('Введенные пароли не совпадают', code='password_mismatch')
+                'password2': ValidationError('Введенные пароли не совпадают', code='password_mismatch')
             })
 
     def save(self, commit=True):

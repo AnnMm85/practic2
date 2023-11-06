@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{%load static%}
+
+{% block content %}
+<h1>My applications</h1>
+
+<form>
+    <label for="status"> Фильтр по статусу:</label>
+
+</form>
+
+{% if application_list %}
+{% for application in application_list %}
+<div class="applstyl">
+    <p><strong>Дата добавления: </strong> {{ application.date }}</p>
+    <p><strong>Название: </strong> {{ application.title }}</p>
+    <p><strong>Описание: </strong> {{ application.description }}</p>
+    <p><strong>Категория заявки: </strong>{{ application.category }}</p>
+    <p><strong>Статус: </strong>{{ application.status }}</p>
+    <li><a href="{% url 'application-delete' application.id %}">Delete applications</a></li>
+</div>
+{% endfor %}
+{% else %}
+<p>There are no applications here.</p>
+{% endif %}
+{% endblock %}
