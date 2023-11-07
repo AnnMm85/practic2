@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{%load static%}
+{% block content %}
+<h1>Панель администратора</h1>
+
+<h2>Управления категориями: </h2>
+<a href="{% url 'category_new' %}">Создать новую категорию</a>
+
+{% for category in categories %}
+<div class="applstyl">
+    <h2>{{ category.name }}</h2>
+    <a href="{% url 'category_delete' category.id %}">Удалить категорию</a>
+</div>
+{% endfor %}
+    <h2> Все заявки </h2>
+{% for application in applications %}
+        <div class="applstyl">
+            <p><strong>Дата добавления:</strong> {{ application.date }}</p>
+            <p><strong>Название:</strong> {{ application.title }}</p>
+            <p><strong>Описание:</strong> {{ application.description }}</p>
+            <p><strong>Категория заявки:</strong> {{ application.category}}</p>
+            <p><strong>Статус:</strong> {{ application.get_status_display }}</p>
+            <a href="{% url 'change_application_status' application.id %}">Изменить статус</a>
+        </div>
+        {% endfor %}
+{% endblock %}
+

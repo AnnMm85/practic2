@@ -20,7 +20,10 @@
                     <ul class="navbar-nav">
                         {% if user.is_authenticated %}
                         <li><a class="nav-link" href="{% url 'my-appli' %}">My Applications</a></li>
-                        <li ><a class="nav-link" href="{% url 'application-create' %}">Create new applications</a></li>
+                        <li><a class="nav-link" href="{% url 'application-create' %}">Create new applications</a></li>
+                        {% if request.user.is_superuser %}
+                        <li><a class="nav-link" href="{% url 'admin_dashboard' %}">Admin Panel</a></li>
+                        {% endif %}
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'logout'%}?next={{ request.path }}">Выйти ({{user.username}})</a>
                         </li>

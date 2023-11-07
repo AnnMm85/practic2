@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{%load static%}
+{% block content %}
+{% if application.status == 'new'%}
+<h1>Изменить статус заявки {{ application.title }}</h1>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Изменить статус</button>
+</form>
+<a href="{% url 'admin_dashboard' %}">Назад</a>
+{% else %}
+<p>Вы не можете изменить статус данной записи</p>
+<a href="{% url 'admin_dashboard' %}">Назад</a>
+{%endif%}
+{% endblock %}

@@ -3,7 +3,7 @@ from django import forms
 from django.core.exceptions import ValidationError
 from django.core.validators import RegexValidator
 
-from catalog.models import AuthUser
+from catalog.models import AuthUser, Application
 
 
 class RegisterUserForm(forms.ModelForm):
@@ -71,5 +71,23 @@ class RegisterUserForm(forms.ModelForm):
         return user
 
 
+class ChangeApplicationStatusForm(forms.ModelForm):
+    comment = forms.CharField(required=False)
+    design = forms.ImageField(required=False)
+
+    class Meta:
+        model = Application
+        fields = ['status', 'comment', 'design']
+
+    def clean(self):
+        cleaned_data = super().clean()
+        status = cleaned_data.get('status')
+        comment = cleaned_data.get('comment')
+        design = cleaned_data.get('design')
+
+        if status == Application.accepted and not comment:
+            self.add_error('comment', 'Комментарий обязателен при смене статуса на "Принято в работу".')
+        elif status == Application.done and not design:
+            self.add_error('design', 'Дизайн обязателен при смене статуса на "Выполнено".')
 
 

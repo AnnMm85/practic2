@@ -6,7 +6,13 @@
 
 <form>
     <label for="status"> Фильтр по статусу:</label>
-
+    <select name="status">
+        <option value="">Все</option>
+        <option value="new">new</option>
+        <option value="accepted">accepted</option>
+        <option value="done">done</option>
+    </select>
+<input type="submit" value="Фильтровать">
 </form>
 
 {% if application_list %}
@@ -15,7 +21,7 @@
     <p><strong>Дата добавления: </strong> {{ application.date }}</p>
     <p><strong>Название: </strong> {{ application.title }}</p>
     <p><strong>Описание: </strong> {{ application.description }}</p>
-    <p><strong>Категория заявки: </strong>{{ application.category }}</p>
+    <p><strong>Категория заявки: </strong>{{ application.category.name }}</p>
     <p><strong>Статус: </strong>{{ application.status }}</p>
     <li><a href="{% url 'application-delete' application.id %}">Delete applications</a></li>
 </div>

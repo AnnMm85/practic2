@@ -8,4 +8,4 @@ admin.site.register(AuthUser)
 
 @admin.register(Application)
 class ApplicationAdmin(admin.ModelAdmin):
-    list_display = ('title', 'description', 'status', 'user')
+    list_display = ('title', 'description', 'display_category',  'status', 'user')

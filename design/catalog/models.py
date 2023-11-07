@@ -27,16 +27,14 @@ def get_name_file(instance, filename):
 
 
 class Application(models.Model):
+    new = 'new'
+    accepted = 'accepted'
+    done = 'done'
+
     STATUS_CHOICES = [
         ('new', 'new'),
         ('accepted', 'accepted'),
         ('done', 'done')
-    ]
-
-    CATEGORY_CHOICES = [
-        ('3D-design', '3D-design'),
-        ('2D-design', '2D-design'),
-        ('Sketch', 'Sketch')
     ]
 
     def validate_image(fieldfile_obj):
@@ -47,12 +45,17 @@ class Application(models.Model):
 
     title = models.CharField(max_length=200)
     description = models.TextField(max_length=1000, help_text="Enter a brief description of the application")
-    category = models.CharField(max_length=254, verbose_name='Категория', choices=CATEGORY_CHOICES)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
     photo_file = models.ImageField(max_length=254, upload_to=get_name_file, blank=True, null=True, validators=[
         FileExtensionValidator(allowed_extensions=['png', 'jpg', 'jpeg', 'bmp']), validate_image])
     status = models.CharField(max_length=254, verbose_name='Статус', choices=STATUS_CHOICES, default='new')
     date = models.DateTimeField(verbose_name='Дата добавления', auto_now_add=True)
     user = models.ForeignKey(AuthUser, verbose_name='Пользователь', on_delete=models.CASCADE, null=True, blank=True)
+
+    def display_category(self):
+        return ', '.join([category.name for category in self.category.all()[:3]])
+
+    display_category.short_description = 'Application'
 
     def get_absolute_url(self):
         """
@@ -67,8 +70,3 @@ class Application(models.Model):
 
     def __str__(self):
         return self.title
-
-    def display_category(self):
-        return ', '.join([category.name for category in self.category.all()[:3]])
-
-    display_category.short_description = 'Category'
